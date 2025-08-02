@@ -1,5 +1,5 @@
 mcp>=1.12.3
-fastmcp>=.11.0
+fastmcp>=2.11.0
 fastapi>=0.115.6
 uvicorn>=0.22.0
 langchain>=0.3.14
