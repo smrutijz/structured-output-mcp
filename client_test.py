@@ -1,30 +1,28 @@
 import asyncio
-from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
+from fastmcp.client.transports import SSETransport
+from fastmcp import Client
 
 async def main():
-    url = "http://localhost:8000/mcp"
-    async with streamablehttp_client(url) as (reader, writer, _) :
-        async with ClientSession(reader, writer) as session:
-            await session.initialize()
-
-            # 🚀 Your specific payload with email extraction
-            result = await session.call_tool(
-                "extract",
-                arguments={
-                    "text": "My email id is smrutijz@hotmail.com",
-                    "user_prompt": "Extract the email address from the user input text",
-                    "sys_prompt": (
-                        "You are a JSON extractor. Given `text` and a list of field‑names, "
-                        "extract values from the text. If a field is not found, return null. "
-                        "Respond with strict JSON matching the schema—no extra keys."
-                    ),
-                    "extract_description": "Email address",
-                    "extract_type": "str"
-                }
-            )
-
-            print("✅ MCP response →", result.json())
+    transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    async with Client(transport) as client:
+        resp = await client.call_tool(
+            "extract",
+            arguments={
+                "text": "My email id is smrutijz@hotmail.com",
+                "user_prompt": "Extract the email address",
+                "sys_prompt": (
+                    "You are a JSON extractor. Given `text` and field‑names, "
+                    "extract values. If not found, return null. "
+                    "Respond with strict JSON—no extra keys."
+                ),
+                "extract_description": "Email address",
+                "extract_type": "str"
+            }
+        )
+    print("resp.data:", resp.data)
+    print("resp.structured_content:", resp.structured_content)
+    for cb in resp.content:
+        print("Text content:", getattr(cb, "text", None))
 
 if __name__ == "__main__":
     asyncio.run(main())

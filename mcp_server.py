@@ -18,7 +18,11 @@ if not OPENAI_MODEL:
     raise RuntimeError("Please set OPENAI_MODEL in .env or env")
 
 # MCP server
-mcp = FastMCP("Extractor")
+mcp = FastMCP(
+    "Extractor",
+    host="0.0.0.0",
+    port="8000"
+    )
 logging.basicConfig(level=logging.INFO)
 
 # ---- MCP tool ----
@@ -53,4 +57,4 @@ def extract(text: str, user_prompt: str, sys_prompt: str, extract_description: s
         }
 
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http")
+    mcp.run(transport="sse")

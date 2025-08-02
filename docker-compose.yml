@@ -1,0 +1,13 @@
+version: "3.12"
+
+services:
+  app:
+    image: docker.io/smrutijz/structured-output-mcp:latest
+    container_name: structured-output-mcp
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
