@@ -1,7 +1,4 @@
-# test_extraction.py
-
 from datetime import date
-import pytest
 from schema_builder import create_extraction_model
 
 
@@ -15,6 +12,16 @@ def test_text_str():
     assert inst.context == ["Document: Invoice #1234", "Section: Billing Information"]
 
 
+def test_text_str_none():
+    ExtractionModel = create_extraction_model(str, "Extracted email address from the document.")
+    inst = ExtractionModel(
+        value=None,
+        context=[]
+    )
+    assert inst.value is None
+    assert inst.context == []
+
+
 def test_text_date():
     ExtractionModel = create_extraction_model(date, "Extracted date from the document.")
     inst = ExtractionModel(
@@ -25,8 +32,17 @@ def test_text_date():
     assert inst.context == ["Document: Invoice #1234", "Section: Billing Information"]
 
 
+def test_text_date_none():
+    ExtractionModel = create_extraction_model(date, "Extracted date from the document.")
+    inst = ExtractionModel(
+        value=None,
+        context=["Document: Invoice #1234"]
+    )
+    assert inst.value is None
+    assert inst.context == ["Document: Invoice #1234"]
+
+
 def test_json_nested():
-    # Use dict as extract_type to accept any JSON-like object
     ExtractionModel = create_extraction_model(dict, "Extracted JSON structure.")
     payload = {
         "email": "user@example.com",
@@ -40,6 +56,16 @@ def test_json_nested():
     assert inst.context == ["Document: User Profile", "Section: Personal Information"]
 
 
+def test_json_nested_none():
+    ExtractionModel = create_extraction_model(dict, "Extracted JSON structure.")
+    inst = ExtractionModel(
+        value=None,
+        context=["Document: User Profile"]
+    )
+    assert inst.value is None
+    assert inst.context == ["Document: User Profile"]
+
+
 def test_list_str():
     ExtractionModel = create_extraction_model(str, "Extracted multiple string items.")
     inst = ExtractionModel(
@@ -48,3 +74,13 @@ def test_list_str():
     )
     assert inst.value == ["user@example.com", "admin@example.com"]
     assert inst.context == ["Document: User List", "Section: Contacts"]
+
+
+def test_list_str_none():
+    ExtractionModel = create_extraction_model(str, "Extracted multiple string items.")
+    inst = ExtractionModel(
+        value=None,
+        context=["Document: User List"]
+    )
+    assert inst.value is None
+    assert inst.context == ["Document: User List"]

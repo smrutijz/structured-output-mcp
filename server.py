@@ -46,7 +46,7 @@ def extract(text: str, user_prompt: str, sys_prompt: str, extract_description: s
 
     msg = llm_with_structured_extraction.invoke([
         SystemMessage(content=sys_prompt),
-        HumanMessage(content=f"{user_prompt}:\n{text}")
+        HumanMessage(content=f"{user_prompt}:\nfrom the following user text:\n{text}")
     ])
 
     if hasattr(msg, "tool_calls") and msg.tool_calls and isinstance(msg.tool_calls, list):

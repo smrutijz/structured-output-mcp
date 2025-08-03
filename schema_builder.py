@@ -21,6 +21,7 @@ def create_extraction_model(extract_type: Type[Any], extract_description: str):
             List[extract_type],
             extract_type,
             dict[str, Any],
+            None
         ],
         Field(
             ...,
