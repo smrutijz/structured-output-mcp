@@ -5,6 +5,7 @@ import json
 
 async def main():
     transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    # transport = SSETransport(url="https://mcp-structured-output-gxeyaucgcfe3a0gf.southeastasia-01.azurewebsites.net/sse")
     async with Client(transport) as client:
         resp = await client.call_tool(
             "extract",

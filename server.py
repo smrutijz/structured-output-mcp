@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 
 # ---- MCP tool ----
 @mcp.tool()
-def extract(text: str, user_prompt: str, sys_prompt: str, extract_description: str, extract_type) -> dict:
+def extract(text: str, user_prompt: str, sys_prompt: str, extract_description: str, extract_type: str = "str") -> dict:
     """
     description: Extracts structured data from text based on a dynamic schema.
     text: The input text from which to extract data.
