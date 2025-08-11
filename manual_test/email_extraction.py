@@ -35,7 +35,7 @@ async def get_extraction_value(resp):
 
 
 async def test_single_email_extraction():
-    transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    transport = SSETransport(url="http://127.0.0.1:8000/mcp")
     async with Client(transport) as client:
         resp = await client.call_tool(
             "extract",
@@ -54,7 +54,7 @@ async def test_single_email_extraction():
 
 
 async def test_multiple_email_extraction():
-    transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    transport = SSETransport(url="http://127.0.0.1:8000/mcp")
     async with Client(transport) as client:
         resp = await client.call_tool(
             "extract",
@@ -74,7 +74,7 @@ async def test_multiple_email_extraction():
 
 
 async def test_no_email_present():
-    transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    transport = SSETransport(url="http://127.0.0.1:8000/mcp")
     async with Client(transport) as client:
         resp = await client.call_tool(
             "extract",
