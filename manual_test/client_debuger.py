@@ -1,18 +1,20 @@
 import asyncio
-from fastmcp.client.transports import SSETransport
+from fastmcp.client.transports import SSETransport, StreamableHttpTransport
 from fastmcp import Client
 import json
 
 async def main():
-    transport = SSETransport(url="http://127.0.0.1:8000/sse")
+    # transport = SSETransport(url="http://127.0.0.1:8000/sse")
     # transport = SSETransport(url="https://mcp-structured-output-gxeyaucgcfe3a0gf.southeastasia-01.azurewebsites.net/sse")
+    transport = StreamableHttpTransport(url="http://127.0.0.1:8000/mcp")
+    # transport = StreamableHttpTransport(url="https://mcp-structured-output-gxeyaucgcfe3a0gf.southeastasia-01.azurewebsites.net/mcp")
     async with Client(transport) as client:
         resp = await client.call_tool(
             "extract",
             arguments={
                 # "text": "My email id is smrutijz@hotmail.com",
-                # "text": "My email id is smrutijz@hotmail.com, my backup is smruti.singapore@gmail.com",
-                "text": "There is no email here.",
+                "text": "My email id is smrutijz@hotmail.com, my backup is smruti.singapore@gmail.com",
+                # "text": "There is no email here.",
                 "user_prompt": "Extract the email address",
                 "sys_prompt": "You are a data extraction assistant.\nYour only task is to find valid email addresses in the user‑provided text. Do not add any other commentary.",
                 "extract_description": "Email address",
